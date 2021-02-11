@@ -19,6 +19,7 @@ var (
 	yellow = color.New(color.FgYellow)
 	bold   = color.New(color.Bold)
 	green  = color.New(color.FgGreen)
+	red    = color.New(color.FgRed)
 )
 
 // ListCmd represents `notes list` command. Each public fields represent options of the command
@@ -75,7 +76,8 @@ func (cmd *ListCmd) printNoteFullTo(out *bufio.Writer, note *Note) {
 	yellow.Fprint(out, "Created:  ")
 	fmt.Fprintln(out, note.Created.Format(time.RFC3339))
 	if note.Title != "" {
-		bold.Fprintf(out, "\n%s\n%s\n\n", note.Title, strings.Repeat("=", runewidth.StringWidth(note.Title)))
+		red.Fprintf(out, "%s\n", note.Title)
+                yellow.Fprintf(out, "%s\n\n", strings.Repeat("=", runewidth.StringWidth(note.Title)))
 	}
 
 	body, size, err := note.ReadBodyLines(10)
